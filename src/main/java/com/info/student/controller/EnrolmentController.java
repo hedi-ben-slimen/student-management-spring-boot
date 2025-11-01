@@ -20,8 +20,8 @@ public class EnrolmentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Enrolment create(@RequestBody Enrolment enrolment) {
-        return service.create(
+    public Enrolment EnrollStudent(@RequestBody Enrolment enrolment) {
+        return service.EnrollStudent(
             enrolment.getStudent().getId(),
             enrolment.getCourse().getId()
             
@@ -50,16 +50,16 @@ public class EnrolmentController {
     }
 
     @PutMapping("/{studentId}/{courseId}")
-    public Enrolment update(@PathVariable Long studentId,
+    public Enrolment updateEnrolment(@PathVariable Long studentId,
                            @PathVariable Long courseId,
                            @RequestBody Enrolment enrolment) {
-        return service.update(studentId, courseId);
+        return service.updateEnrolment(studentId, courseId);
     }
 
     @DeleteMapping("/{studentId}/{courseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long studentId,
+    public void ExitEnrollment(@PathVariable Long studentId,
                       @PathVariable Long courseId) {
-        service.delete(studentId, courseId);
+        service.ExitEnrollment(studentId, courseId);
     }
 }

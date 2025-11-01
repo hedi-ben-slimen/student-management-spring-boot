@@ -32,7 +32,7 @@ public class EnrolmentServiceImpl implements EnrolmentService {
 
     @Override
     @Transactional
-    public Enrolment create(Long studentId, Long courseId) {
+    public Enrolment EnrollStudent(Long studentId, Long courseId) {
         Student student = studentRepo.findById(studentId)
                 .orElseThrow(() -> new RessourceNotFoundException("Student not found" + studentId));
         Course course = courseRepo.findById(courseId)
@@ -81,7 +81,7 @@ public class EnrolmentServiceImpl implements EnrolmentService {
 
     @Override
     @Transactional
-    public Enrolment update(Long studentId, Long courseId) {
+    public Enrolment updateEnrolment(Long studentId, Long courseId) {
         EnrolementId id = new EnrolementId(studentId, courseId);
         Enrolment enrolment = getById(id);
         LocalDateTime now = LocalDateTime.now();
@@ -91,7 +91,7 @@ public class EnrolmentServiceImpl implements EnrolmentService {
 
     @Override
     @Transactional
-    public void delete(Long studentId, Long courseId) {
+    public void ExitEnrollment(Long studentId, Long courseId) {
         EnrolementId id = new EnrolementId(studentId, courseId);
         Enrolment enrolment = getById(id);
         enrolmentRepo.delete(enrolment);

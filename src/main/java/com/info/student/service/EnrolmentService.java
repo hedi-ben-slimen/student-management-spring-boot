@@ -5,11 +5,11 @@ import com.info.student.model.EnrolementId;
 import java.util.List;
 
 public interface EnrolmentService {
-    Enrolment create(Long studentId, Long courseId);
+    Enrolment EnrollStudent(Long studentId, Long courseId);
     Enrolment getById(EnrolementId id);
     List<Enrolment> list();
     List<Enrolment> getByStudentId(Long studentId);
     List<Enrolment> getByCourseId(Long courseId);
-    Enrolment update(Long studentId, Long courseId);
-    void delete(Long studentId, Long courseId);
+    Enrolment updateEnrolment(Long studentId, Long courseId);
+    void ExitEnrollment(Long studentId, Long courseId);
 }
