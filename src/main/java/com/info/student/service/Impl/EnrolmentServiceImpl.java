@@ -1,14 +1,16 @@
 package com.info.student.service.Impl;
 
+import com.info.student.Exception.ConfilctException;
+import com.info.student.Exception.RessourceNotFoundException;
 import com.info.student.model.*;
 import com.info.student.repository.CourseRepository;
 import com.info.student.repository.EnrolmentRepository;
 import com.info.student.repository.StudentRepository;
 import com.info.student.service.EnrolmentService;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,22 +32,24 @@ public class EnrolmentServiceImpl implements EnrolmentService {
 
     @Override
     @Transactional
-    public Enrolment create(Long studentId, Long courseId, LocalDateTime enrolmentDate) {
+    public Enrolment create(Long studentId, Long courseId) {
         Student student = studentRepo.findById(studentId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
+                .orElseThrow(() -> new RessourceNotFoundException("Student not found" + studentId));
         Course course = courseRepo.findById(courseId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+                .orElseThrow(() -> new RessourceNotFoundException("Course not found"));
 
         EnrolementId id = new EnrolementId(studentId, courseId);
         if (enrolmentRepo.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Student is already enrolled in this course");
+            throw new ConfilctException("Enrolment already exists");
         }
 
         Enrolment enrolment = new Enrolment();
         enrolment.setId(id);
         enrolment.setStudent(student);
         enrolment.setCourse(course);
-        enrolment.setEnrolmentDate(enrolmentDate);
+
+        LocalDateTime now = LocalDateTime.now();
+        enrolment.setEnrolmentDate(now);
 
         return enrolmentRepo.save(enrolment);
     }
@@ -53,7 +57,7 @@ public class EnrolmentServiceImpl implements EnrolmentService {
     @Override
     public Enrolment getById(EnrolementId id) {
         return enrolmentRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Enrolment not found"));
+                .orElseThrow(() -> new RessourceNotFoundException("Enrollment not found"));
     }
 
     @Override
@@ -64,23 +68,24 @@ public class EnrolmentServiceImpl implements EnrolmentService {
     @Override
     public List<Enrolment> getByStudentId(Long studentId) {
         Student student = studentRepo.findById(studentId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
+                .orElseThrow(() -> new RessourceNotFoundException("Student not found"));
         return enrolmentRepo.findByStudent(student);
     }
 
     @Override
     public List<Enrolment> getByCourseId(Long courseId) {
         Course course = courseRepo.findById(courseId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+                .orElseThrow(() -> new RessourceNotFoundException("Course not found"));
         return enrolmentRepo.findByCourse(course);
     }
 
     @Override
     @Transactional
-    public Enrolment update(Long studentId, Long courseId, LocalDateTime enrolmentDate) {
+    public Enrolment update(Long studentId, Long courseId) {
         EnrolementId id = new EnrolementId(studentId, courseId);
         Enrolment enrolment = getById(id);
-        enrolment.setEnrolmentDate(enrolmentDate);
+        LocalDateTime now = LocalDateTime.now();
+        enrolment.setEnrolmentDate(now);
         return enrolmentRepo.save(enrolment);
     }
 

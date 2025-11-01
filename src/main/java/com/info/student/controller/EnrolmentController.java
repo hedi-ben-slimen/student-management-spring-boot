@@ -23,8 +23,8 @@ public class EnrolmentController {
     public Enrolment create(@RequestBody Enrolment enrolment) {
         return service.create(
             enrolment.getStudent().getId(),
-            enrolment.getCourse().getId(),
-            enrolment.getEnrolmentDate()
+            enrolment.getCourse().getId()
+            
         );
     }
 
@@ -53,7 +53,7 @@ public class EnrolmentController {
     public Enrolment update(@PathVariable Long studentId,
                            @PathVariable Long courseId,
                            @RequestBody Enrolment enrolment) {
-        return service.update(studentId, courseId, enrolment.getEnrolmentDate());
+        return service.update(studentId, courseId);
     }
 
     @DeleteMapping("/{studentId}/{courseId}")

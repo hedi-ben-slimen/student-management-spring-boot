@@ -2,11 +2,13 @@ package com.info.student.model;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "course")
+@Data
 public class Course {
 
 

@@ -1,11 +1,13 @@
 package com.info.student.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "enrolment")
+@Data
 public class Enrolment {
 
 

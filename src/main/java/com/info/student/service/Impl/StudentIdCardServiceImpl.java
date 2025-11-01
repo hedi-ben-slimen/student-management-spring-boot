@@ -1,5 +1,6 @@
 package com.info.student.service.Impl;
 
+import com.info.student.Exception.RessourceNotFoundException;
 import com.info.student.model.Student;
 import com.info.student.model.StudentIdCard;
 import com.info.student.repository.StudentIdCardRepository;
@@ -28,7 +29,7 @@ public class StudentIdCardServiceImpl implements StudentIdCardService {
     @Transactional
     public StudentIdCard create(String cardNumber, Long studentId) {
         Student student = studentRepo.findById(studentId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
+                .orElseThrow(() -> new RessourceNotFoundException("Student not found"));
         
         if (cardRepo.existsByStudent(student)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Student already has an ID card");
