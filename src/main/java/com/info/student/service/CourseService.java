@@ -1,12 +1,19 @@
 package com.info.student.service;
 
 import com.info.student.model.Course;
+
 import java.util.List;
+import java.util.Optional;
 
 public interface CourseService {
-    Course create(String courseName, String department);
-    Course getById(Long id);
-    List<Course> list();
-    Course update(Long id, String courseName, String department);
-    void delete(Long id);
+
+    List<Course> getAllCourse();
+
+    Optional<Course> getCourseById(Long id);
+
+    Course createCourse(Course course);
+
+    Course updateCourse(Long id, Course updatedCourse);
+
+    void deleteCourse(Long id);
 }

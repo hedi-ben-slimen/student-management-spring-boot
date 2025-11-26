@@ -1,11 +1,13 @@
+server:
+  port: 8082
 spring:
   application:
-    name: Student Course Enrollment Systems
+    name: student-course-enrollment
 
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: admin
+    password: hedi20110
 
   jpa:
     hibernate:
@@ -15,3 +17,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9874/eureka/

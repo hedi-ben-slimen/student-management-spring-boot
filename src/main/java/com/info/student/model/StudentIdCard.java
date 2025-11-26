@@ -8,16 +8,15 @@ import lombok.Data;
 @Table(name = "student_id_card")
 public class StudentIdCard {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "student_id_card", nullable = false)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "student_id_card", nullable = false)
+  private Long id;
 
+  @Column(name = "cardNumber", nullable = false, columnDefinition = "TEXT", unique = true)
+  private String cardNumber;
 
-    @Column(name = "cardNumber", nullable = false , columnDefinition = "TEXT", unique = true)
-    private String cardNumber;
-
-    @OneToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
+  @OneToOne
+  @JoinColumn(name = "student_id", nullable = false)
+  private Student student;
 }

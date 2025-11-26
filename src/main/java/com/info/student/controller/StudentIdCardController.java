@@ -5,48 +5,41 @@ import com.info.student.service.StudentIdCardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/student-cards")
+@RequestMapping("/api/student-id-cards")
 public class StudentIdCardController {
 
-    private final StudentIdCardService service;
+  private final StudentIdCardService service;
 
-    public StudentIdCardController(StudentIdCardService service) {
-        this.service = service;
-    }
+  public StudentIdCardController(StudentIdCardService service) {
+    this.service = service;
+  }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public StudentIdCard create(@RequestBody StudentIdCard card) {
-        return service.create(card.getCardNumber(), card.getStudent().getId());
-    }
+  // Create without DTOs: pass params directly
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public StudentIdCard create(@RequestParam Long studentId, @RequestParam String cardNumber) {
+    return service.create(studentId, cardNumber);
+  }
 
-    @GetMapping("/{id}")
-    public StudentIdCard getById(@PathVariable Long id) {
-        return service.getById(id);
-    }
+  @GetMapping("/{id}")
+  public StudentIdCard getById(@PathVariable Long id) {
+    return service.getById(id);
+  }
 
-    @GetMapping("/student/{studentId}")
-    public StudentIdCard getByStudentId(@PathVariable Long studentId) {
-        return service.getByStudentId(studentId);
-    }
+  @GetMapping("/by-student/{studentId}")
+  public StudentIdCard getByStudent(@PathVariable Long studentId) {
+    return service.getByStudentId(studentId);
+  }
 
-    @GetMapping
-    public List<StudentIdCard> list() {
-        return service.list();
-    }
+  @PutMapping("/{id}")
+  public StudentIdCard update(@PathVariable Long id, @RequestParam String cardNumber) {
+    return service.updateCardNumber(id, cardNumber);
+  }
 
-    @PutMapping("/{id}")
-    public StudentIdCard update(@PathVariable Long id,
-                              @RequestBody StudentIdCard card) {
-        return service.update(id, card.getCardNumber());
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
-    }
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable Long id) {
+    service.delete(id);
+  }
 }
